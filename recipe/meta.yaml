@@ -1,5 +1,5 @@
 {% set name = "PyLBFGS" %}
-{% set version = "0.2.0.14" %}
+{% set version = "0.2.0.15" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 0394ac3de598b818a01fb225a6b853abbd0e09620e35c072c6c96b0bbe558b99
+  sha256: 01b05e381eafaba873453222af527eeb29b2b44771c4523917bd956403e6ceb7
 
 build:
-  number: 2
   skip: true  # [win]
-  script: {{ PYTHON }} -m pip install . -vv
+  number: 2
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   build:
@@ -20,6 +20,8 @@ requirements:
   host:
     - python
     - pip
+    - setuptools
+    - wheel
     - cython
     - numpy
   run:
@@ -29,6 +31,10 @@ requirements:
 test:
   imports:
     - lbfgs
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/dedupeio/pylbfgs
@@ -36,6 +42,10 @@ about:
   license_family: MIT
   license_file: LICENSE
   summary: LBFGS and OWL-QN optimization algorithms
+  description: |
+    This is a Python wrapper around Naoaki Okazaki (chokkan)'s
+    liblbfgs library of quasi-Newton optimization routines (limited
+    memory BFGS and OWL-QN).
   doc_url: https://github.com/dedupeio/pylbfgs
   dev_url: https://github.com/dedupeio/pylbfgs
 
