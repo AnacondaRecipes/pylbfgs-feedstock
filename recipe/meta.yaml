@@ -10,8 +10,7 @@ source:
   sha256: 01b05e381eafaba873453222af527eeb29b2b44771c4523917bd956403e6ceb7
 
 build:
-  skip: true  # [win]
-  number: 2
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -23,18 +22,22 @@ requirements:
     - setuptools
     - wheel
     - cython
-    - numpy
+    - numpy {{ numpy }}
   run:
     - python
     - {{ pin_compatible('numpy') }}
 
 test:
+  source_files:
+    - tests
   imports:
     - lbfgs
   requires:
     - pip
+    - pytest
   commands:
     - pip check
+    - pytest -v tests
 
 about:
   home: https://github.com/dedupeio/pylbfgs
